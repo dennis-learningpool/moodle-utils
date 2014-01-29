@@ -1,0 +1,97 @@
+<html>
+  <head>
+    <title>Moodle Utils</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container">
+
+      <div class="page-header">
+        <h2>Moodle Utils</h2>
+      </div>
+
+      <div class="row">
+        <nav class="navbar navbar-default" role="navigation">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <span class="navbar-brand">Jump to</span>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#convert-tags">Convert SQL</a></li>
+          </ul>
+        </div>
+      </div>
+
+
+      <div class="row" id="convert-tags">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Convert moodle SQL tags</h3>
+          </div>
+          <div class="panel-body">
+            <form role="form">
+              <div class="form-group">
+                <label for="mdl_sql_in" class="control-label">In</label>
+                <p class="help-block">Paste your unfiltered SQL here (eg. "SELECT * FROM {course};")</p>
+                <textarea id="mdl_sql_in" class="form-control" rows="10"></textarea>
+
+              </div>
+              <div class="form-group">
+                <label for="mdl_sql_out" class="control-label">Out</label>
+                <p class="help-block">Your SQL with tags filtered will appear here</p>
+                <textarea id="mdl_sql_out" class="form-control" rows="10"></textarea>
+              </div>
+              <div class="form-group">
+                <p class="help-block">If you use a different table prefix, add it here. Otherwise just hit "Convert".</p>
+                <div class="input-group col-md-3">
+                  <span class="input-group-addon">prefix</span>
+                  <input type="text" class="form-control text-right" id="dbprefix" value="mdl_" />
+                  <span class="input-group-btn">
+                    <button class="btn btn-primary" type="button" onclick="convertSQL('mdl_sql_in','mdl_sql_out');">Convert</button>
+                  </span>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+    <script type="text/javascript">
+       var mdlsqlreg = /(\{)([A-Za-z_]*)(\})/g;
+       function convertSQL(srctarget,desttarget){
+         var src = document.getElementById(srctarget);
+         var dest = 'ERROR INPUT';
+         var prefix = document.getElementById('dbprefix').value;
+         src = src && src.value;
+         if (src) {
+           dest = src.replace(mdlsqlreg, prefix+'$2');
+         }
+         document.getElementById(desttarget).value = dest;
+       }
+    </script>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+  </body>
+</html>
